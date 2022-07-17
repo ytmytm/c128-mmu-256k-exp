@@ -58,12 +58,9 @@ Note that the problem occurs only in PS/PDF/HTML documentation. The TXT version 
 
 ### PCBS
 
-Make sure to solder round pin headers first.
+Make sure to solder round pin headers under 48-pin DIP sockets first.
 
-<div style="width:640px">
-![Top](media/pcb-top.jpg)
-</div>
+<img src="media/pcb-top.jpg" alt="PCB top" width=320> <img src="media/pcb-bottom.jpg" alt="PCB bottom" width=320>
 
-<div style="width:640px">
-![Bottom](media/pcb-top.jpg)
-</div>
+### Installation in C128DCR
+
