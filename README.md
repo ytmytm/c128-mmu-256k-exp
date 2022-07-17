@@ -60,6 +60,10 @@ Note that the problem occurs only in PS/PDF/HTML documentation. The TXT version 
 
 Make sure to solder round pin headers first.
 
+<div style="width:640px">
 ![Top](media/pcb-top.jpg)
+</div>
 
+<div style="width:640px">
 ![Bottom](media/pcb-top.jpg)
+</div>
