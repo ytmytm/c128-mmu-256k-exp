@@ -1,0 +1,87 @@
+%SIGNAL
+PIN   1 =  A0 
+PIN   2 =  A1 
+PIN   3 =  A2 
+PIN   4 =  A3 
+PIN   5 =  CAS0 
+PIN   6 =  CAS1 
+PIN   9 =  D0 
+PIN  10 =  D1 
+PIN  11 =  D6 
+PIN  14 =  D0_IC5 
+PIN  13 =  D7 
+PIN  15 =  D6_IC5 
+PIN  20 =  Q7 
+PIN  21 =  Q8 
+PIN  22 =  Q9 
+PIN  23 =  Q10 
+PIN  16 =  RAMCAS0_BOARD 
+PIN   7 =  RAMCAS0_CHIP 
+PIN  17 =  RAMCAS1_BOARD 
+PIN   8 =  RAMCAS1_CHIP 
+PIN  18 =  RAMCAS2 
+PIN  19 =  RAMCAS3 
+%END
+
+%FIELD
+FIELD A2_A0 = A0,A1,A2
+%END
+
+%EQUATION
+D0D1_EN =>
+    A0
+  # A2
+  # !A3
+
+D0_IC5 =>
+    A0 & D0
+  # A2 & D0
+  # !A3 & D0
+  # !A0 & !A2 & A3 & D1
+
+D6D7_EN =>
+    !A0
+  # A1
+  # !A2
+
+D6_IC5 =>
+    !A0 & D7
+  # A1 & D7
+  # !A2 & D7
+  # A0 & !A1 & A2 & D6
+
+RAMCAS0_BOARD =>
+    CAS0
+  # RAMCAS0_CHIP
+
+RAMCAS1_BOARD =>
+    CAS0
+  # RAMCAS1_CHIP
+
+RAMCAS2 =>
+    CAS1
+  # RAMCAS0_CHIP
+
+RAMCAS3 =>
+    CAS1
+  # RAMCAS1_CHIP
+
+D0_IC5.oe  =>
+    1 
+
+D6_IC5.oe  =>
+    1 
+
+RAMCAS0_BOARD.oe  =>
+    1 
+
+RAMCAS1_BOARD.oe  =>
+    1 
+
+RAMCAS2.oe  =>
+    1 
+
+RAMCAS3.oe  =>
+    1 
+
+%END

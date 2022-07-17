@@ -1,0 +1,127 @@
+
+*******************************************************************************
+                                 C128_MMU256K
+*******************************************************************************
+
+CUPL(WM)        5.0a Serial# 60008009
+Device          g22v10  Library DLIB-h-40-1
+Created         Wed Jun 22 16:34:33 2022
+Name            C128_MMU256K 
+Partno          00 
+Revision        01 
+Date            2022-06-13 
+Designer        Maciej Witkowiak 
+Company         YTM Enterprises 
+Assembly        None 
+Location        
+
+===============================================================================
+                            Expanded Product Terms
+===============================================================================
+
+A2_A0 =>
+    A0 , A1 , A2
+
+D0D1_EN =>
+    A0
+  # A2
+  # !A3
+
+D0_IC5 =>
+    A0 & D0
+  # A2 & D0
+  # !A3 & D0
+  # !A0 & !A2 & A3 & D1
+
+D6D7_EN =>
+    !A0
+  # A1
+  # !A2
+
+D6_IC5 =>
+    !A0 & D7
+  # A1 & D7
+  # !A2 & D7
+  # A0 & !A1 & A2 & D6
+
+RAMCAS0_BOARD =>
+    CAS0
+  # RAMCAS0_CHIP
+
+RAMCAS1_BOARD =>
+    CAS0
+  # RAMCAS1_CHIP
+
+RAMCAS2 =>
+    CAS1
+  # RAMCAS0_CHIP
+
+RAMCAS3 =>
+    CAS1
+  # RAMCAS1_CHIP
+
+D0_IC5.oe  =>
+    1 
+
+D6_IC5.oe  =>
+    1 
+
+RAMCAS0_BOARD.oe  =>
+    1 
+
+RAMCAS1_BOARD.oe  =>
+    1 
+
+RAMCAS2.oe  =>
+    1 
+
+RAMCAS3.oe  =>
+    1 
+
+
+===============================================================================
+                                 Symbol Table
+===============================================================================
+
+Pin Variable                                    Pterms   Max     Min    
+Pol   Name              Ext     Pin     Type     Used   Pterms  Level   
+--- --------            ---     ---     ----    ------  ------  -----   
+
+    A0                          1        V        -       -       -     
+    A1                          2        V        -       -       -     
+    A2                          3        V        -       -       -     
+    A3                          4        V        -       -       -     
+    A2_A0                       0        F        -       -       -     
+    CAS0                        5        V        -       -       -     
+    CAS1                        6        V        -       -       -     
+    D0                          9        V        -       -       -     
+    D0D1_EN                     0        I        3       -       -     
+    D1                          10       V        -       -       -     
+    D6                          11       V        -       -       -     
+    D0_IC5                      14       V        4       8       2     
+    D6D7_EN                     0        I        3       -       -     
+    D7                          13       V        -       -       -     
+    D6_IC5                      15       V        4       10      2     
+    Q7                          20       V        -       -       -     
+    Q8                          21       V        -       -       -     
+    Q9                          22       V        -       -       -     
+    Q10                         23       V        -       -       -     
+    RAMCAS0_BOARD               16       V        2       12      2     
+    RAMCAS0_CHIP                7        V        -       -       -     
+    RAMCAS1_BOARD               17       V        2       14      2     
+    RAMCAS1_CHIP                8        V        -       -       -     
+    RAMCAS2                     18       V        2       16      2     
+    RAMCAS3                     19       V        2       16      2     
+    D0_IC5              oe      14       D        1       1       0     
+    D6_IC5              oe      15       D        1       1       0     
+    RAMCAS0_BOARD       oe      16       D        1       1       0     
+    RAMCAS1_BOARD       oe      17       D        1       1       0     
+    RAMCAS2             oe      18       D        1       1       0     
+    RAMCAS3             oe      19       D        1       1       0     
+
+
+LEGEND    D : default variable         F : field      G : group
+          I : intermediate variable    N : node       M : extended node
+          U : undefined                V : variable   X : extended variable
+          T : function
+

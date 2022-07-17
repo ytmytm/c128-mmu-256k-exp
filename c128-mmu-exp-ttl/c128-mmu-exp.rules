@@ -1,0 +1,86 @@
+
+(rules PCB c128-mmu-exp
+  (snap_angle 
+    fortyfive_degree
+  )
+  (autoroute_settings
+    (fanout on)
+    (autoroute on)
+    (postroute on)
+    (vias on)
+    (via_costs 5)
+    (plane_via_costs 5)
+    (start_ripup_costs 100)
+    (start_pass_no 2909)
+    (layer_rule F.Cu
+      (active on)
+      (preferred_direction vertical)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 2.4)
+    )
+    (layer_rule B.Cu
+      (active on)
+      (preferred_direction horizontal)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 1.7)
+    )
+  )
+  (rule
+    (width 250.0)
+    (clear 200.2)
+    (clear 125.0 (type smd_to_turn_gap))
+    (clear 50.0 (type smd_smd))
+  )
+  (padstack "Via[0-1]_800:400_um"
+    (shape
+      (circle F.Cu 800.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 800.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_800:400_um" "Via[0-1]_800:400_um" default
+  )
+  (via 
+    "Via[0-1]_800:400_um-kicad_default" "Via[0-1]_800:400_um" "kicad_default"
+  )
+  (via_rule
+    default "Via[0-1]_800:400_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_800:400_um-kicad_default"
+  )
+  (class default
+    /~{RESET} "unconnected-(IC5-Pad3)" "unconnected-(IC5-Pad4)" "unconnected-(IC5-Pad5)" "unconnected-(IC5-Pad6)" "unconnected-(IC5-Pad7)" "unconnected-(IC5-Pad8)" "unconnected-(IC5-Pad9)"
+    "unconnected-(IC5-Pad10)" "Net-(IC5-Pad11)" "Net-(IC5-Pad12)" "unconnected-(IC5-Pad13)" "unconnected-(IC5-Pad14)" "unconnected-(IC5-Pad15)" /AEC /MUX
+    /A0 /A1 /A2 /A3 /A5{slash}A4 /A7{slash}A6 /A8 /A9
+    /A10 /A11 /A12 /A13 /A14 /A15 /R{slash}~{W} "/PHI_{IN}"
+    /D0 /D1 /D2 /D3 /D4 /D5 /D6 /D7
+    /~{Z80EN} /~{FSDIR} /~{GAME} /~{EXROM} /MS3 /40{slash}~{80} "/D0_{IC5}" "/D6_{IC5}"
+    "Net-(IC6-Pad10)" "Net-(IC6-Pad13)" "Net-(IC7-Pad10)" "unconnected-(IC6-Pad7)" "unconnected-(IC6-Pad9)" "unconnected-(IC6-Pad11)" "unconnected-(IC6-Pad12)" "unconnected-(IC6-Pad14)"
+    "Net-(IC6-Pad15)" "Net-(IC8-Pad6)" "Net-(IC7-Pad4)" "Net-(IC7-Pad6)" "Net-(IC9-Pad3)" "Net-(IC9-Pad6)" /~{RAMCAS2} /~{RAMCAS3}
+    "/~{RAMCAS1}_{IN}" "/~{RAMCAS0}_{IN}" "/~{RAMCAS1}_{OUT}" "/~{RAMCAS0}_{OUT}" /TA15 /TA14 /TA13 /TA12
+    /TA11 /TA10 /TA9 /TA8 /~{CAS1} /~{CAS0} /MS2,~{IOSEL} /MS1
+    /MS0 VCC GND
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+  (class "kicad_default"
+    (clearance_class "kicad_default")
+    (via_rule kicad_default)
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+)

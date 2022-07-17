@@ -1,0 +1,57 @@
+Name     C128_MMU256K ;
+PartNo   00 ;
+Date     2022-06-13 ;
+Revision 01 ;
+Designer Maciej Witkowiak ;
+Company  YTM Enterprises ;
+Assembly None ;
+Location  ;
+Device   g22v10 ;
+
+/* input 1-11 */
+/* i/o/q 13-23 */
+/* GND 12, VCC 24 */
+
+/* https://class.ece.uw.edu/475/peckol/doc/cupl.html */
+/* https://nreeder.com/programminggal/ */
+
+/* *************** INPUT PINS *********************/
+PIN 1    = A0                        ; /* A0                                */ 
+PIN 2    = A1                        ; /* A1                                */ 
+PIN 3    = A2                        ; /* A2                                */ 
+PIN 4    = A3                        ; /* A3                                */ 
+PIN 5    = CAS0                      ; /* /CAS0 (new MMU)                   */ 
+PIN 6    = CAS1                      ; /* /CAS1 (new MMU)                   */ 
+PIN 7    = RAMCAS0_CHIP              ; /* /RAMCAS0_CHIP                     */ 
+PIN 8    = RAMCAS1_CHIP              ; /* /RAMCAS1_CHIP                     */ 
+PIN 9    = D0                        ; /* D0 (old MMU)                      */ 
+PIN 10   = D1                        ; /* D1 (old MMU)                      */ 
+PIN 11   = D6                        ; /* D6 (old MMU)                      */ 
+PIN 13   = D7                        ; /* D7 (old MMU)                      */ 
+
+/* *************** OUTPUT PINS *********************/
+PIN 14    = D0_IC5                   ; /* D0 (new MMU)                      */ 
+PIN 15    = D6_IC5                   ; /* D6 (new MMU)                      */ 
+PIN 16    = RAMCAS0_BOARD            ; /* /RAMCAS0_BOARD                    */ 
+PIN 17    = RAMCAS1_BOARD            ; /* /RAMCAS1_BOARD                    */ 
+PIN 18    = RAMCAS2                  ; /* /RAMCAS2                          */ 
+PIN 19    = RAMCAS3                  ; /* /RAMCAS3                          */ 
+PIN 20    = Q7                       ; /*                                   */ 
+PIN 21    = Q8                       ; /*                                   */ 
+PIN 22    = Q9                       ; /*                                   */ 
+PIN 23    = Q10                      ; /*                                   */ 
+
+/* these verified in falstad */
+RAMCAS3 = CAS1 # RAMCAS1_CHIP ;
+RAMCAS2 = CAS1 # RAMCAS0_CHIP ;
+RAMCAS0_BOARD = CAS0 # RAMCAS0_CHIP ;
+RAMCAS1_BOARD = CAS0 # RAMCAS1_CHIP ;
+
+field A2_A0 = [A0..2] ;
+/* pass D7 as D6 except for $d505 (and $d50d but we ignore that) */
+D6D7_EN = !(A2_A0:5) ; /* address A2,A1,A0 must be equal 5 */
+D6_IC5 = (D6D7_EN & D7) # (!D6D7_EN & D6) ;
+
+/* p0h, p1h registers: $d508 and $d50a, pass bank number from bit 1 to new MMU IC5 */
+D0D1_EN = !(A2_A0:[0,2] & A3) ; /* address A3..A0 must be equal 8 or 10 */
+D0_IC5 = (D0D1_EN & D0) # (!D0D1_EN & D1) ;

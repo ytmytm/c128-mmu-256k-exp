@@ -1,0 +1,79 @@
+LISTING FOR LOGIC DESCRIPTION FILE: C128_MMU256K.pld                 Page 1
+
+CUPL(WM): Universal Compiler for Programmable Logic
+Version 5.0a Serial# 60008009
+Copyright (c) 1983, 1998 Logical Devices, Inc.
+Created Wed Jun 22 16:34:32 2022
+
+  1:Name     C128_MMU256K ;
+  2:PartNo   00 ;
+  3:Date     2022-06-13 ;
+  4:Revision 01 ;
+  5:Designer Maciej Witkowiak ;
+  6:Company  YTM Enterprises ;
+  7:Assembly None ;
+  8:Location  ;
+  9:Device   g22v10 ;
+ 10:
+ 11:/* input 1-11 */
+ 12:/* i/o/q 13-23 */
+ 13:/* GND 12, VCC 24 */
+ 14:
+ 15:/* https://class.ece.uw.edu/475/peckol/doc/cupl.html */
+ 16:/* https://nreeder.com/programminggal/ */
+ 17:
+ 18:/* *************** INPUT PINS *********************/
+ 19:PIN 1    = A0                        ; /* A0                                */ 
+ 20:PIN 2    = A1                        ; /* A1                                */ 
+ 21:PIN 3    = A2                        ; /* A2                                */ 
+ 22:PIN 4    = A3                        ; /* A3                                */ 
+ 23:PIN 5    = CAS0                      ; /* /CAS0 (new MMU)                   */ 
+ 24:PIN 6    = CAS1                      ; /* /CAS1 (new MMU)                   */ 
+ 25:PIN 7    = RAMCAS0_CHIP              ; /* /RAMCAS0_CHIP                     */ 
+ 26:PIN 8    = RAMCAS1_CHIP              ; /* /RAMCAS1_CHIP                     */ 
+ 27:PIN 9    = D0                        ; /* D0 (old MMU)                      */ 
+ 28:PIN 10   = D1                        ; /* D1 (old MMU)                      */ 
+ 29:PIN 11   = D6                        ; /* D6 (old MMU)                      */ 
+ 30:PIN 13   = D7                        ; /* D7 (old MMU)                      */ 
+ 31:
+ 32:/* *************** OUTPUT PINS *********************/
+ 33:PIN 14    = D0_IC5                   ; /* D0 (new MMU)                      */ 
+ 34:PIN 15    = D6_IC5                   ; /* D6 (new MMU)                      */ 
+ 35:PIN 16    = RAMCAS0_BOARD            ; /* /RAMCAS0_BOARD                    */ 
+ 36:PIN 17    = RAMCAS1_BOARD            ; /* /RAMCAS1_BOARD                    */ 
+ 37:PIN 18    = RAMCAS2                  ; /* /RAMCAS2                          */ 
+ 38:PIN 19    = RAMCAS3                  ; /* /RAMCAS3                          */ 
+ 39:PIN 20    = Q7                       ; /*                                   */ 
+ 40:PIN 21    = Q8                       ; /*                                   */ 
+ 41:PIN 22    = Q9                       ; /*                                   */ 
+ 42:PIN 23    = Q10                      ; /*                                   */ 
+ 43:
+ 44:/* these verified in falstad */
+ 45:RAMCAS3 = CAS1 # RAMCAS1_CHIP ;
+ 46:RAMCAS2 = CAS1 # RAMCAS0_CHIP ;
+ 47:RAMCAS0_BOARD = CAS0 # RAMCAS0_CHIP ;
+ 48:RAMCAS1_BOARD = CAS0 # RAMCAS1_CHIP ;
+ 49:
+ 50:field A2_A0 = [A0..2] ;
+ 51:/* pass D7 as D6 except for $d505 (and $d50d but we ignore that) */
+ 52:D6D7_EN = !(A2_A0:5) ; /* address A2,A1,A0 must be equal 5 */
+ 53:D6_IC5 = (D6D7_EN & D7) # (!D6D7_EN & D6) ;
+
+LISTING FOR LOGIC DESCRIPTION FILE: C128_MMU256K.pld                 Page 2
+
+CUPL(WM): Universal Compiler for Programmable Logic
+Version 5.0a Serial# 60008009
+Copyright (c) 1983, 1998 Logical Devices, Inc.
+Created Wed Jun 22 16:34:32 2022
+
+ 54:
+ 55:/* p0h, p1h registers: $d508 and $d50a, pass bank number from bit 1 to new MMU IC5 */
+ 56:D0D1_EN = !(A2_A0:[0,2] & A3) ; /* address A3..A0 must be equal 8 or 10 */
+ 57:D0_IC5 = (D0D1_EN & D0) # (!D0D1_EN & D1) ;
+ 58:
+ 59:
+
+
+
+Jedec Fuse Checksum       (7a58)
+Jedec Transmit Checksum   (7eed)
