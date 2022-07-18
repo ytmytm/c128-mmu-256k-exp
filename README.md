@@ -6,7 +6,9 @@ Two KiCad projects capture schematic and PCB for 256KB expansion only.
 
 This is a daughterboard meant to be plugged into U7 socket to raise the original MOS 8722 MMU chip and add a second one to generate `/CAS` signals for RAM banks 2 and 3. The challenge was to make it narrow enough to fit into C128DCR - there is not much space near MMU socket between power connector, power supply and SID.
 
-For the full description please read the [original documentation on zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/documents/projects/memory/c128/1028/index.html).
+<img src="media/c128dcr/6.dcr-board-overview.jpg" alt="C128DCR board overview" width=800>
+
+For the full description of the project please read the [original documentation on zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/documents/projects/memory/c128/1028/index.html).
 
 Be warned that PS/HTML/PDF versions contain a small error (read below).
 
@@ -28,21 +30,24 @@ These days it's so easy and cheap to order professionally manufactured PCBs that
 - `/RAMCAS0` and `/RAMCAS1` (output to old RAM, U9 board)
 - `/RAMCAS2` and `/RAMCAS3` (output to new RAM)
 
-The original document calls for desoldering U9 and soldering some wires to the board and raised legs. However it's much more convenient to raise one leg of R29 and R30 and tie there. In case you really want to go with connecting to U9 please keep in mind that signals are connected to different pins on C128(D) and C128DCR.
-
-I remembered that I had stumbled on a mistake in the original documentation, I just didn't left for myself enough information what it was. This is why I started with TTL version to duplicate exactly the reference design.
+The original document calls for desoldering U9 and soldering some wires to the board and raised legs. However it's much more convenient to raise one leg of R29 and R30 and tie there. In case you really want to go with connecting to U9 please keep in mind that the same signals are connected to different pins on C128(D) and C128DCR.
 
 ### Design correction
 
+I remembered that I had stumbled on a mistake in the original documentation, I just didn't leave for myself enough information what it was. This is why I started with TTL version to duplicate exactly the reference design and understand how it works.
+
+The problem is with IC7 (74LS02) connection to IC8 (4066). IC8 (4066) pins 6 (E3) and 12 (E4) were swapped on the original schematic and in the description. 
+Fortunately the authors described not only the circuit but also the theory of operation.
 To make it work as described in section 3.1.1:
 
 > pass D7 into D6 of new MMU, except for $D505 (then pass D6 as D6)
 
-Pin numbers for IC8 (4066) 6 (E3) and 12 (E4) were swapped in the original schematic. IC8 pin 6 has to be connected to IC7 pin 3 (NAND output) and IC8 pin 12 has to be connected to IC7 pins 1 and 2 (NAND input) and IC6 pin 10 (/O5).
+IC8 pin 6 has to be connected to IC7 pin 3 (NAND output) and IC8 pin 12 has to be connected to IC7 pins 1 and 2 (NAND input) and IC6 (74LS138) pin 10 (/O5).
 
-Note that the problem occurs only in PS/PDF/HTML documentation. The TXT version was correct.
+Documentation in PS/PDF/HTML format has this problem. TXT version has correct ASCII drawing of the schematic, but the same mistake in description.
 
-[Corrected schematic is here.](c128-mmu-exp-ttl/plots/c128-mmu-exp.pdf). PCB design was not tested, there is no way to make it fit into C128DCR and stil be within cheap 10x10cm board size.
+[Corrected schematic is here](c128-mmu-exp-ttl/plots/c128-mmu-exp.pdf). This PCB design was not tested - I never meant to build it.
+There is no way to make it fit into C128DCR and keep dimensions within cheap 10x10cm board size.
 
 ## GAL project
 
@@ -58,7 +63,7 @@ Note that the problem occurs only in PS/PDF/HTML documentation. The TXT version 
 
 ### Flashing GALs
 
-Flash the [JED](gal-jed/C128_MMU256K.jed) file into a GAL22V10. These devices are themselves obsolete. The ones I had from an unknown Chinese source were clearly refurbished. ATMEL markings were rubbing off even without using alcohol.
+Flash the [JED](gal-jed/C128_MMU256K.jed) file into a GAL22V10. These devices are themselves obsolete. Chips that I had from an unknown Chinese source were clearly refurbished. ATMEL markings started to rub off even without using alcohol.
 
 I have used TL866 II Plus to flash them. Remember to turn off "Encrypt chip" and "Lock bit" options.
 
@@ -72,7 +77,7 @@ Make sure to solder round pin headers under 48-pin DIP sockets first.
 
 #### Step 1
 
-First test can be done right away. Just plug in the daughterboard with MMU fit into U7. GAL is not yet necessary. Computer should start normally. The new PCB fits into U7 socket just between SID and power socket. It's difficult so check carefully if it is plugged in correctly with no shifted pins hanging outside the socket.
+First test can be done right away. Just plug in the daughterboard with MMU installed into U7 socket. GAL is not yet necessary. The computer should start normally. The new PCB fits nicely just between SID and the power socket. Check carefully if the daughterboard is plugged correctly with no shifted pins hanging outside the U7 socket.
 
 <img src="media/c128dcr/1.install-test.jpg" alt="C128DCR fit" width=640>
 
@@ -83,7 +88,7 @@ Now we need to tie into `/RAMCAS0` and `/RAMCAS1` signals that go out of U9. The
 <img src="media/c128dcr/2.raised-resistors.jpg" alt="R29/R30" width=600> <img src="media/c128dcr/3.raised-resistors.jpg" alt="R29/R30" width=600>
 
 - `/RAMCAS` input - from U9 chip side goes to PCB J1: bank0 (related to R29) to round pad, bank1 (related to R30) to square pad
-- `/RAMCAS` output - from U9 board side goes to PCB J2: bank0 (relate to R29, U38 pin 16) to round pad, bank1 (related to R30, U39 pin 16) to square pad
+- `/RAMCAS` output - from U9 board side goes to PCB J2: bank0 (related to R29, U38 pin 16) to round pad, bank1 (related to R30, U39 pin 16) to square pad
 
 You can see how yellow wires - connected to R29/R30 leg - go to J1 while red wires - connected to pads near the edge of the board - go to J2.
 
@@ -91,11 +96,11 @@ Another way to put it: J1 connects to U9 pins, J2 connects to RAM (U38-41) pin 1
 
 <img src="media/c128dcr/4.banks-01-installed.jpg" alt="J1 and J2 connected" width=640>
 
-At this stage, with both MMUs and GAL installed the computer should work normally. There should be one difference - in machine monitor commands `M 24000 24080` or `M 34000 34080` should show randomly changing values for unconnected RAM instead of mirroring banks 0 and 1.
+At this stage, with both MMUs and GAL installed the computer should work normally. There should be one difference: machine monitor commands `M 24000 24080` or `M 34000 34080` should show randomly changing values from unconnected RAM banks 2 and 3 instead of mirroring data from banks 0 and 1.
 
 #### Step 3
 
-Finally signals from J3 should be connected to `/CAS` pins of new DRAM chips piggy-backed on existing U38-U41 chips. In my case, I already had prepared a board with SRAM replacement for C128DCR system RAM.
+Finally signals from J3 should be connected to `/CAS` pins of new DRAM chips piggy-backed on existing U38-U41 chips. In my case, I already had another board with SRAM replacement for C128DCR system RAM.
 
 <img src="media/c128dcr/5.banks-23-installed.jpg" alt="J3 connected" width=1200>
 
@@ -103,14 +108,14 @@ Finally signals from J3 should be connected to `/CAS` pins of new DRAM chips pig
 
 ### Installation in C128D
 
-I don't own a flat C128, nor a C128D with a case. All I have is a rescued C128D board, so I don't really know if this populated daughterboard will fit inside a case and under the keyboard.
+I don't own a flat C128, nor a C128D with a case. All I have is a rescued C128D board, so I don't really know if a populated daughterboard will fit inside a case and under the keyboard.
 
 The daughterboard doesn't reach capacitors in the back and just barely covers CIA in the front.
 
 <img src="media/c128d/1.c128d-fit.jpg" alt="C128D fit test" width=1200>
 
 I'm using SRAM here as well - two [SaRuMan 128 modules](https://c-128.freeforums.net/thread/928/saruman-c128-static-replacement-board).
-I decided to make things even easier for myself and to remove R29/R30 completely.
+I decided to make things even easier for myself and removed R29/R30 completely.
 
 <img src="media/c128d/2.r29-r30-removed.jpg" alt="R29/R30" width=1200>
 
