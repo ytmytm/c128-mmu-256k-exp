@@ -100,7 +100,7 @@ At this stage, with both MMUs and GAL installed the computer should work normall
 
 #### Step 3
 
-Finally signals from J3 should be connected to `/CAS` pins of new DRAM chips piggy-backed on existing U38-U41 chips. In my case, I already had another board with SRAM replacement for C128DCR system RAM.
+Finally signals from J3 should be connected to `/CAS` pins of new DRAM chips piggy-backed on existing U38-U41 chips. In my case, I already had another board with [SRAM replacement for C128DCR system RAM](https://oshwlab.com/mwitkowiak/sram-test_copy).
 
 <img src="media/c128dcr/5.banks-23-installed.jpg" alt="J3 connected" width=1200>
 
